@@ -29,5 +29,4 @@ Pour installer et exécuter cette application localement, suivez les étapes ci-
 
  ## Demo
 ![Capture d’écran, le 2024-03-11 à 15 27 03](https://github.com/WinnerPindi/BookNowApp/assets/90834225/fce73192-78b5-421c-8c69-406c4f793442)
-
- 
+![Capture d’écran, le 2024-03-11 à 15 36 14](https://github.com/WinnerPindi/BookNowApp/assets/90834225/7c99538e-24c7-4618-a719-fa9a5dd03a82)

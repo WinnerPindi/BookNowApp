@@ -5,7 +5,9 @@ import authRoute from "./routes/authRoute.js";
 import usersRoute from "./routes/usersRoute.js";
 import roomsRoute from "./routes/roomsRoute.js";
 import hotelsRoute from "./routes/hotelsRoute.js";
+import cors from 'cors'
 const app = express();
+app.use(cors());
 dotenv.config();
 
 //Fonction qui permet de se connecter à MongoDB
@@ -31,6 +33,17 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
+
+app.use((err,req,res,next) => {
+  const errorStatus = err.status || 500 ;
+  const errorMessage = err.status || "Something went wrong!"
+  return res.status(errorStatus).json({
+    success:false,
+    status:errorStatus,
+    message: errorMessage,
+    stack: err.stack,
+  })
+});
 
 
 app.listen(8800, () => {

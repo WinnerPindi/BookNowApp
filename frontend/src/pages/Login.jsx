@@ -1,6 +1,8 @@
-export function Login({ email, password }) {
+import { Link } from "react-router-dom";
+
+export function Login() {
   return (
-    <div className="p-4 border-2 primary rounded-lg shadow-lg max-w-md mx-auto mt-20 ">
+    <div className="p-4 border-2 primary rounded-lg shadow-lg max-w-md mx-auto mt-20">
       <h1 className="mt-6 text-4xl text-center mb-10">Se connecter</h1>
       <form className="space-y-4">
         <input
@@ -20,6 +22,12 @@ export function Login({ email, password }) {
           Se connecter
         </button>
       </form>
+      <p className="mt-4 text-center">
+        Pas de compte ?{" "}
+        <Link to="/signup" className="text-blue-500 hover:text-blue-700">
+          S'inscrire
+        </Link>
+      </p>
     </div>
   );
 }

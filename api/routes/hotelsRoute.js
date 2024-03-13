@@ -32,6 +32,7 @@ router.delete("/:id", async (req, res) => {
   res.status(200).json("Hotel has been deleted");
 });
 
+
 //GET A HOTEL
 router.get("/:id", async (req, res) => {
   try {

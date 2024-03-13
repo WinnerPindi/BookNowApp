@@ -17,6 +17,7 @@ const connect = async () => {
     console.error("Falied to connect to MongoDB", error);
     throw error;
   }
+  
 };
 
 mongoose.connection.on("disconnected", () => {

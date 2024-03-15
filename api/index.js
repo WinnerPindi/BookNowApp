@@ -6,6 +6,7 @@ import usersRoute from "./routes/usersRoute.js";
 import roomsRoute from "./routes/roomsRoute.js";
 import hotelsRoute from "./routes/hotelsRoute.js";
 import cors from 'cors'
+import cookieParser from "cookie-parser";
 const app = express();
 app.use(cors());
 dotenv.config();
@@ -28,6 +29,7 @@ mongoose.connection.on("disconnected", () => {
 
 //Middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);

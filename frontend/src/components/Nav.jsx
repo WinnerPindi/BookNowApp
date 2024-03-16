@@ -2,17 +2,19 @@ import { Link } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import BookingLogo from "../assets/lit.png";
 import { useState } from "react";
-
+import {useSelector} from "react-redux"
 // Mise à jour pour inclure les routes sous forme d'objets contenant le nom et le chemin
 const ROUTES = [
   { name: "Accueil", path: "/" },
   { name: "Logement", path: "/logement" }, // Vous devez ajouter cette route dans vos <Routes> si ce n'est pas déjà fait
   { name: "Mes Reservations", path: "/reservations" }, // Ajoutez cette route également
-  { name: "Connexion", path: "/login" },
+  //{ name: "Connexion", path: "/login" },
 ];
 
 export function Nav() {
   const [isMobileMenuShown, setIsMobileMenuShown] = useState(false);
+  const {user} = useSelector((state) => state.authSlice)
+  console.log(user);
 
   return (
     <nav className="flex flex-wrap justify-between items-center">
@@ -33,8 +35,10 @@ export function Nav() {
               <Link to={route.path} className="block">
                 {route.name}
               </Link>
+              
             </li>
           ))}
+          {user?.userDetails?<h1>{user.userDetails.lastname}</h1>:<Link to="/login">Connexion</Link>}
         </ul>
       </div>
     </nav>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export function SingUp() {
   const [lastname, setLastname] = useState("");
@@ -7,16 +8,15 @@ export function SingUp() {
   const [password, setPassword] = useState("");
   async function register(ev) {
     ev.preventDefault();
-    await fetch('http://localhost:8800/api/auth/register',{
-      method:'POST',
-      body:JSON.stringify({lastname,firstname,email,password}),
-      headers: {'Content-Type': 'application/json'},
-    })
-
+    await fetch("http://localhost:8800/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify({ lastname, firstname, email, password }),
+      headers: { "Content-Type": "application/json" },
+    });
   }
   return (
     <div>
-      <div className="mt-20">
+      <div className="p-4 border-2 primary rounded-lg shadow-lg max-w-md mx-auto mt-20">
         <h1 className="text-4xl text-center mb-4">Inscription</h1>
         <form className="max-w-xl mx-auto " onSubmit={register}>
           <input
@@ -45,6 +45,10 @@ export function SingUp() {
           />
           <button className="primary">S'inscrire</button>
         </form>
+        <p className="mt-4 text-center">
+          Déjà un compte ?{" "}
+          <Link to="/login" className="text-blue-500 hover:text-blue-700">Se connecter</Link>
+        </p>
       </div>
     </div>
   );

@@ -11,6 +11,8 @@ import { Provider } from "react-redux";
 import store from "./redux/store/index.js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserProfil from "./pages/UserProfil.jsx";
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -21,6 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/" element={<Accueil />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SingUp />} />
+            <Route path="/userprofil/:id" element={<UserProfil />} />
           </Route>
         </Routes>
       </Provider>

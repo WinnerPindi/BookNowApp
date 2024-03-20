@@ -47,3 +47,8 @@ export const login = async (req, res, next) => {
     next(err);
   }
 };
+
+export const logout = async (req, res, next) => {
+  res.cookie('access_token', '', { maxAge: 1 }); // Supprime le cookie en le définissant à une chaîne vide et en expirant immédiatement
+  res.send("Déconnexion réussie");
+};

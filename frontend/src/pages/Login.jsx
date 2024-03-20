@@ -1,35 +1,34 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Importez useNavigate
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/slice/authSlice";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
+
 export function Login() {
-  const [credentials,setCredentials] = useState({
+  const [credentials, setCredentials] = useState({
     email: "",
-    password:""
+    password: ""
   });
-  const user = useSelector((state) => state.authSlice)
-  console.log(user)
-  const dispatch = useDispatch()
+  const user = useSelector((state) => state.authSlice);
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // Utilisez useNavigate
 
-
-  const handleSubmit = async (ev) =>{
+  const handleSubmit = async (ev) => {
     ev.preventDefault();
     try {
-      const response = await dispatch(login(credentials))
-      console.log(response)
-      if(response.type == "auth/login/rejected"){
-        toast.warning(response.payload.stack)
-      }else{
-        console.log(response)
+      const response = await dispatch(login(credentials));
+      console.log(response);
+      if (response.type === "auth/login/rejected") {
+        toast.warning(response.payload?.stack || 'Une erreur est survenue');
+      } else {
+        toast.info('Connexion réussie !');
+        navigate('/'); // Redirigez l'utilisateur à la page d'accueil après la connexion réussie
       }
-      toast.info('Hello')
     } catch (error) {
-      console.log(error)
-      toast.info('Salut')
-      toast.info(error)
+      console.log(error);
+      toast.error('Une erreur est survenue lors de la connexion.');
     }
-  }
+  };
   return (
     <div className="p-4 border-2 primary rounded-lg shadow-lg max-w-md mx-auto mt-20">
       <h1 className="mt-6 text-4xl text-center mb-10">Se connecter</h1>

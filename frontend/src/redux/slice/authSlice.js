@@ -39,16 +39,16 @@ const authSlice = createSlice({
         state.message = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.user = action.payload; // Assurez-vous que ceci correspond à la structure de votre état et des données retournées
+        state.user = action.payload; 
         localStorage.setItem('profile', JSON.stringify(action.payload));
       })
       .addCase(login.rejected, (state, action) => {
         state.user = null;
-        state.message = action.payload?.message; // Utilisez message ou une propriété pertinente de payload
+        state.message = action.payload?.message; 
       })
       // Gérez l'état pour logout.fulfilled pour nettoyer l'utilisateur
       .addCase(logout.fulfilled, (state) => {
-        state.user = null; // Assurez-vous que l'état de l'utilisateur est nettoyé
+        state.user = null; 
       });
   },
 });

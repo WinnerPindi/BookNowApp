@@ -19,6 +19,23 @@ export const logout = createAsyncThunk('auth/logout', async (_, {dispatch}) => {
   dispatch(clearUser()); // Dispatch une action pour réinitialiser l'utilisateur
 });
 
+export const updateUserDetails = createAsyncThunk(
+  'auth/updateUserDetails',
+  async ({ id, ...updateData }, { getState, rejectWithValue }) => {
+    try {
+      const { user } = getState().authSlice; // Obtenez les détails de l'utilisateur actuel à partir de l'état
+      if (!user || !user.userDetails) {
+        throw new Error("Aucun utilisateur connecté");
+      }
+      const response = await API.put(`api/users/${id}`, updateData); // Utilisez votre API pour envoyer la requête PUT
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -49,6 +66,16 @@ const authSlice = createSlice({
       // Gérez l'état pour logout.fulfilled pour nettoyer l'utilisateur
       .addCase(logout.fulfilled, (state) => {
         state.user = null; 
+      })
+      // Ajoutez les cas pour gérer les états de votre action updateUserDetails ici
+      .addCase(updateUserDetails.fulfilled, (state, action) => {
+        // Mise à jour réussie, mettez à jour l'état de l'utilisateur avec les nouvelles données
+        state.user.userDetails = action.payload;
+        localStorage.setItem('profile', JSON.stringify(state.user)); // Mettez à jour localStorage si nécessaire
+      })
+      .addCase(updateUserDetails.rejected, (state, action) => {
+        // Gérez l'échec de la mise à jour ici
+        console.error("Échec de la mise à jour des détails de l'utilisateur", action.payload);
       });
   },
 });

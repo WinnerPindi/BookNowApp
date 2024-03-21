@@ -24,7 +24,7 @@ function UserProfil() {
           <div className="mt-4 border"></div>
         </div>
         <div className="mt-5">
-          <Link to="/edit-profile">
+          <Link to="/edituser/:id">
             <button className="px-4 py-2 bg-primary text-white rounded hover:bg-amber-700 transition duration-150">
               Modifier le profil
             </button>

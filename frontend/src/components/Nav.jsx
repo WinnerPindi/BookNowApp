@@ -34,9 +34,7 @@ export function Nav() {
           <li className="px-3 py-2 cursor-pointer hover:bg-gray-100 bg-amber-700 text-white lg:bg-transparent lg:text-amber-700">
             <Link to="/" className="block">Accueil</Link>
           </li>
-          <li className="px-3 py-2 cursor-pointer hover:bg-gray-100">
-            <Link to="/logement" className="block">Logement</Link>
-          </li>
+         
           <li className="px-3 py-2 cursor-pointer hover:bg-gray-100">
             <Link to="/reservations" className="block">Mes Réservations</Link>
           </li>

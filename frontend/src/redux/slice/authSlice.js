@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { API } from '../../conf.js'; // Assurez-vous que ce chemin est correct
+import { API } from '../../conf.js'; 
 
 export const login = createAsyncThunk(
   'auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await API.post('api/auth/login', credentials);
-      return response.data; // Assurez-vous de retourner les données attendues
+      return response.data; 
     } catch (err) {
       console.log(err);
       return rejectWithValue(err.response.data);

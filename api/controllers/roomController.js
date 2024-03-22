@@ -4,19 +4,32 @@ import { createError } from "../utils/error.js";
 
 export const createRoom = async (req, res, next) => {
   const hotelId = req.params.hotelid;
-  const newRoom = new RoomModel(req.body);
+  // Création d'un nouvel objet chambre avec les données reçues dans le corps de la requête
+  // et les chemins des images téléchargées
+  const newRoomData = {
+    ...req.body,
+    images: req.files.map(file => file.path), // Assumer que 'req.files' contient vos fichiers téléchargés
+  };
+  const newRoom = new RoomModel(newRoomData);
 
   try {
-    const savedRoom = await newRoom.save();
+    const savedRoom = await newRoom.save(); // Sauvegarde de la chambre dans la base de données
+
     try {
+      // Mise à jour du document de l'hôtel correspondant pour ajouter l'ID de la chambre nouvellement créée
       await HotelModel.findByIdAndUpdate(hotelId, {
         $push: { rooms: savedRoom._id },
       });
     } catch (err) {
-        next(err);
+      // En cas d'erreur lors de la mise à jour de l'hôtel, on passe l'erreur au middleware d'erreur
+      next(err);
+      return; // Arrêt de l'exécution pour éviter d'envoyer une réponse multiple
     }
-    res.status(200).json(savedRoom);
+
+    // Envoi d'une réponse avec la chambre sauvegardée si tout s'est bien passé
+    res.status(201).json(savedRoom);
   } catch (err) {
+    // En cas d'erreur lors de la sauvegarde de la chambre, on passe l'erreur au middleware d'erreur
     next(err);
   }
 };

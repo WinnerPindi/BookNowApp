@@ -5,13 +5,30 @@ import { APPART } from "../constant";
 import { AppartGrid } from "../components/AppartGrid";
 import { HomeBanner } from "../components/HomeBanner";
 import { Footer } from "../components/Footer";
+import { useEffect, useState } from "react";
+import { fetchRooms } from "../services/roomService";
 
 export function Accueil() {
+
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    const getRoomsData = async () => {
+      try {
+        const roomsData = await fetchRooms();
+        setRooms(roomsData);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données des chambres: ", error);
+      }
+    };
+
+    getRoomsData();
+  }, []);
   return (
     <div >
       <HomeBanner/>
       <SearchBarre />
-      <AppartGrid items={APPART}/>
+      <AppartGrid items={rooms}/>
       <Footer/>
     </div>
   );

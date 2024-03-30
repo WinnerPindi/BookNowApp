@@ -8,6 +8,14 @@ const RoomSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    address:{
+      type: String,
+      required: true,
+    },
+    perks:{
+      type: String,
+      required: true,
+    },
     price: {
       type: Number,
       required: true,

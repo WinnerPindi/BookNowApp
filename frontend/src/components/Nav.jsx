@@ -36,7 +36,7 @@ export function Nav() {
           </li>
          
           <li className="px-3 py-2 cursor-pointer hover:bg-gray-100">
-            <Link to="/reservations" className="block">Mes Réservations</Link>
+            <Link to="/bookings" className="block">Mes Réservations</Link>
           </li>
           {user?.userDetails ? (
             <>

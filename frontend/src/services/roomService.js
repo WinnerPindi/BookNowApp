@@ -16,3 +16,8 @@ export const fetchRooms = async () => {
         
     }
 };
+
+export const fetchRoomDetails = async (id) => {
+    const response = await axios.get(`${BASE_URL}/rooms/${id}`);
+    return response.data;
+}

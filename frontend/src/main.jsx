@@ -13,6 +13,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserProfil from "./pages/UserProfil.jsx";
 import { UserProfileEdit } from "./pages/UserProfileEdit.jsx";
+import RoomDetails from "./pages/RoomDetails.jsx";
+import UserBookings from "./pages/UserBookings.jsx";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -26,6 +28,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/signup" element={<SingUp />} />
             <Route path="/userprofil/:id" element={<UserProfil />} />
             <Route path="/edituser/:id" element={<UserProfileEdit/>} />
+            <Route path="/rooms/:id" element={<RoomDetails/>} />
+            <Route path="/bookings" element={<UserBookings/>} />
           </Route>
         </Routes>
       </Provider>

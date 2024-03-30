@@ -5,10 +5,13 @@ import authRoute from "./routes/authRoute.js";
 import usersRoute from "./routes/usersRoute.js";
 import roomsRoute from "./routes/roomsRoute.js";
 import hotelsRoute from "./routes/hotelsRoute.js";
+import bookingRoute from "./routes/bookingRoute.js";
 import cors from 'cors'
 import cookieParser from "cookie-parser";
 const app = express();
-app.use(cors());
+app.use(cors({origin:["http://localhost:3000"],
+credentials:true
+}))
 dotenv.config();
 
 //Fonction qui permet de se connecter à MongoDB
@@ -36,6 +39,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
+app.use("/api/bookings", bookingRoute)
 
 app.use((err,req,res,next) => {
   const errorStatus = err.status || 500 ;

@@ -11,6 +11,7 @@ import {
 
 const router = express.Router();
 
+
 // Créer une réservation
 router.post("/", verifyUser, createBooking); // Utilise `verifyUser` pour s'assurer que seuls les utilisateurs authentifiés peuvent créer une réservation
 // Mettre à jour une réservation
@@ -19,6 +20,7 @@ router.put("/:id", verifyUser, updateBooking); // Vous pourriez vouloir vérifie
 router.delete("/:id", verifyUser, deleteBooking); // Assure que seul un admin peut supprimer une réservation
 // Récupérer une réservation par son ID
 router.get("/me", verifyUser, getBooking);
+
 
 // Récupérer toutes les réservations
 router.get("/", verifyAdmin, getBookings); // Limite cette opération aux administrateurs

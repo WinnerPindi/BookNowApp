@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { fetchRoomDetails } from "../services/roomService";
+import { useParams, useNavigate } from "react-router-dom";
 
 function RoomDetails() {
   let { id } = useParams();
+  const navigate = useNavigate();
   const [roomDetails, setRoomDetails] = useState(null);
 
   useEffect(() => {
@@ -19,11 +20,16 @@ function RoomDetails() {
       }
     };
 
+
     loadRoomDetails();
   }, [id]);
 
   if (!roomDetails) {
     return <div>Chargement...</div>;
+  }
+
+  const handleReserveClick = () =>{
+    navigate('/create-booking', {state:{ roomId: id} })
   }
 
   return (
@@ -71,7 +77,7 @@ function RoomDetails() {
           <div className="text-2xl text-center">
             Prix: {roomDetails.price}$ CAD nuit
           </div>
-          <button className="mt-2 primary"> Réserver </button>
+          <button className="mt-2 primary" onClick={handleReserveClick}> Réserver </button>
         </div>
       </div>
       

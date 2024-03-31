@@ -25,7 +25,7 @@ const UserBookings = () => {
 
   return (
     <div className="max-w-4xl mx-auto ">
-      <h2 className="text-3xl font-bold mb-10">Mes réservations</h2>
+      <h2 className="mt-12 text-4xl text-center  mb-10">Mes réservations</h2>
       {bookings.length > 0 ? (
         bookings.map((booking) => (
           <div
@@ -56,31 +56,31 @@ const UserBookings = () => {
             </p>
             {/* Actions */}
             <div className="flex justify-end items-center gap-4">
-              <button
-                className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
-                onClick={() => {
-                  /* Fonction de modification ici */
-                }}
-              >
-                <BiEdit />
-                <span>Modifier</span>
-              </button>
-              <button
-                className="flex items-center gap-2 text-red-600 hover:text-red-800"
-                onClick={() => {
-                  if (
-                    window.confirm(
-                      "Êtes-vous sûr de vouloir supprimer cette réservation ?"
-                    )
-                  ) {
-                    dispatch(deleteBooking(booking._id));
-                  }
-                }}
-              >
-                <BiTrash />
-                <span>Supprimer</span>
-              </button>
-            </div>
+  <button
+    className="flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+    onClick={() => {
+      /* Fonction de modification ici */
+    }}
+  >
+    <BiEdit />
+    <span>Modifier</span>
+  </button>
+  <button
+    className="flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+    onClick={() => {
+      if (
+        window.confirm(
+          "Êtes-vous sûr de vouloir supprimer cette réservation ?"
+        )
+      ) {
+        dispatch(deleteBooking(booking._id));
+      }
+    }}
+  >
+    <BiTrash />
+    <span>Supprimer</span>
+  </button>
+</div>
           </div>
         ))
       ) : (

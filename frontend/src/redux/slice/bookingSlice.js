@@ -18,6 +18,23 @@ export const fetchUserBookings = createAsyncThunk(
     }
   }
 );
+export const deleteBooking = createAsyncThunk(
+  "bookings/deleteBooking",
+  async (bookingId, { getState, rejectWithValue }) => {
+    try {
+      const { token } = JSON.parse(localStorage.getItem("profile"));
+      API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await API.delete(`api/bookings/${bookingId}`);
+      if (response.status !== 200) {
+        throw new Error("Erreur lors de la suppression de la réservation");
+      }
+      return bookingId; // Retourne l'ID de la réservation supprimée pour le supprimer de l'état
+    } catch (err) {
+      console.error(err);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 const bookingsSlice = createSlice({
   name: "bookings",
@@ -41,6 +58,18 @@ const bookingsSlice = createSlice({
       .addCase(fetchUserBookings.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // Gérer la suppression d'une réservation
+      .addCase(deleteBooking.pending, (state) => {
+        // Optionnel : gérer l'état de chargement de la suppression
+      })
+      .addCase(deleteBooking.fulfilled, (state, action) => {
+        state.bookings = state.bookings.filter(
+          (booking) => booking._id !== action.payload
+        );
+      })
+      .addCase(deleteBooking.rejected, (state, action) => {
+        // Optionnel : gérer une erreur de suppression
       });
   },
 });

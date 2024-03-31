@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserBookings } from '../redux/slice/bookingSlice';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserBookings, deleteBooking } from "../redux/slice/bookingSlice";
+import { BiTrash, BiEdit } from "react-icons/bi"; // Importez BiEdit ici
+
+const BASE_IMAGE_URL = "http://localhost:8800/";
 
 const UserBookings = () => {
   const dispatch = useDispatch();
-  const { bookings, loading, error } = useSelector((state) => state.bookingSlice);
-  //const bookings = useSelector((state) => state);
-  console.log(bookings);
-  // Correction ici : vous aviez userDetails mais pas user défini
+  const { bookings, loading, error } = useSelector(
+    (state) => state.bookingSlice
+  );
   const { userDetails } = useSelector((state) => state.authSlice.user);
-  const userId = userDetails?._id; // Assurez-vous que cela correspond à la structure de vos données utilisateur
+  const userId = userDetails?._id;
 
   useEffect(() => {
     if (userId) {
@@ -18,18 +20,72 @@ const UserBookings = () => {
   }, [dispatch, userId]);
 
   if (loading) return <div>Chargement...</div>;
-  if (error) return <div>Erreur : {error.message || "Une erreur s'est produite"}</div>;
+  if (error)
+    return <div>Erreur : {error.message || "Une erreur s'est produite"}</div>;
 
   return (
-    <div>
-     <h2>Mes réservations</h2>
-      {bookings?.map((booking) => (
-        <div key={booking._id}>
-          <p>Chambre: {booking.room}</p>
-          <p>Date d'arrivée: {booking.arrivalDate}</p>
-          <p>Date de départ: {booking.departDate}</p>
-        </div>
-      ))}
+    <div className="max-w-4xl mx-auto ">
+      <h2 className="text-3xl font-bold mb-10">Mes réservations</h2>
+      {bookings.length > 0 ? (
+        bookings.map((booking) => (
+          <div
+            key={booking._id}
+            className="bg-white rounded-lg overflow-hidden shadow-lg mb-5 p-5 flex flex-col gap-4"
+          >
+            {/* Afficher l'image de la chambre */}
+            {booking.room.images && booking.room.images[0] && (
+              <img
+                src={`${BASE_IMAGE_URL}${booking.room.images[0]}`}
+                alt={`Photo de la chambre ${booking.room.title}`}
+                className="w-full h-64 object-cover rounded-lg"
+              />
+            )}
+            {/* Afficher le titre de la chambre et les dates */}
+            <h3 className="text-xl font-semibold">{`Chambre: ${booking.room.title}`}</h3>
+            <p className="text-gray-600">
+              Date d'arrivée:{" "}
+              <span className="font-semibold">
+                {new Date(booking.arrivalDate).toLocaleDateString()}
+              </span>
+            </p>
+            <p className="text-gray-600">
+              Date de départ:{" "}
+              <span className="font-semibold">
+                {new Date(booking.departDate).toLocaleDateString()}
+              </span>
+            </p>
+            {/* Actions */}
+            <div className="flex justify-end items-center gap-4">
+              <button
+                className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                onClick={() => {
+                  /* Fonction de modification ici */
+                }}
+              >
+                <BiEdit />
+                <span>Modifier</span>
+              </button>
+              <button
+                className="flex items-center gap-2 text-red-600 hover:text-red-800"
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Êtes-vous sûr de vouloir supprimer cette réservation ?"
+                    )
+                  ) {
+                    dispatch(deleteBooking(booking._id));
+                  }
+                }}
+              >
+                <BiTrash />
+                <span>Supprimer</span>
+              </button>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div className="text-center py-5">Aucune réservation trouvée.</div>
+      )}
     </div>
   );
 };

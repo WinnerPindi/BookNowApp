@@ -50,7 +50,7 @@ export const getBookings = async (req, res, next) => {
 export const getBooking = async (req, res, next) => {
  console.log(req.user._id);
   try {
-    const booking = await BookingModel.find({"user":req.user._id}).select("-user");
+    const booking = await BookingModel.find({"user":req.user._id}).select("-user").populate('room').exec();
     res.status(200).json(booking);
   } catch (error) {
     next(error);

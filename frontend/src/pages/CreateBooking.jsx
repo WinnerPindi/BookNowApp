@@ -11,7 +11,7 @@ const CreateBooking = () => {
   // Ajustez ici pour utiliser la nouvelle structure Redux
   const user = useSelector((state) => state.authSlice.user);
   const userDetails = user?.userDetails;
-  const token = user?.token; // Assurez-vous que le token est stocké avec les détails de l'utilisateur dans l'action de login
+  const token = user?.token; 
 
   const roomId = location.state?.roomId;
   const [arrivalDate, setArrivalDate] = useState('');
@@ -25,7 +25,7 @@ const CreateBooking = () => {
     try {
       const response = await axios.post('http://localhost:8800/api/bookings', {
         room: roomId,
-        user: userDetails._id, // Utilisez l'_id depuis userDetails
+        user: userDetails._id, 
         arrivalDate,
         departDate
       }, {

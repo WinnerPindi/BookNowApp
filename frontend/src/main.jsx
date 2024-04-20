@@ -16,6 +16,7 @@ import { UserProfileEdit } from "./pages/UserProfileEdit.jsx";
 import RoomDetails from "./pages/RoomDetails.jsx";
 import UserBookings from "./pages/UserBookings.jsx";
 import CreateBooking from "./pages/CreateBooking.jsx"
+import AddUserReview from "./pages/AddUserReview.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -31,6 +32,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/rooms/:id" element={<RoomDetails/>} />
             <Route path="/create-booking" element={<CreateBooking/>} />
             <Route path="/bookings" element={<UserBookings/>} />
+            <Route path="/reviews/new" element={<AddUserReview/>} />
           </Route>
         </Routes>
       </Provider>

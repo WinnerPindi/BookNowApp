@@ -1,77 +1,59 @@
-import "react-date-range/dist/styles.css"; // main css file
-import "react-date-range/dist/theme/default.css"; // theme css file
-import { DateRange } from "react-date-range";
-import { useState } from "react";
-import { format } from "date-fns";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export function SearchBarre() {
-  const [openDate, setOpenDate] = useState(false);
+  const [price, setPrice] = useState('');
+  const [maxPeople, setMaxPeople] = useState('');
 
-  const [date, setDate] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8800/api/rooms/search`, {
+        params: {
+          price: price,
+          maxPeople: maxPeople
+        }
+      });
+      setGlobalRooms(response.data);  // Stocker les données globalement ou les envoyer via contexte / état global
+      navigate('/search');  // Rediriger vers la page de résultats de recherche
+    } catch (error) {
+      console.error('Erreur lors de la recherche de chambres:', error);
+    }
+  };
 
   return (
     <div className="-mt-20 relative flex justify-center">
-      {/* Conteneur avec position relative pour permettre un positionnement absolu du DateRange par rapport à lui */}
       <div className="relative border border-gray-300 p-10 rounded-lg bg-white">
         <div className="flex space-x-10">
-          {/* La destination */}
           <div className="flex flex-col space-y-1">
-            <label htmlFor="inputId" className="text-lg font-semibold">
+            <label htmlFor="priceInput" className="text-lg font-semibold">
               Prix ?
             </label>
             <input
+              id="priceInput"
               type="text"
               placeholder="Quel prix ?"
-              className="cursor-pointer border-none outline-none"
+              className="cursor-pointer border border-gray-300 p-2 rounded outline-none"
+              value={price}
+              onChange={e => setPrice(e.target.value)}
             />
           </div>
-          <div className="border border-l border-gray-500"></div>
 
-          {/* Départ et Arrivé */}
-          <div className="flex flex-col cursor-pointer">
-            <label htmlFor="inputId" className="  text-lg font-semibold">
-              Arrivé et Départ
-            </label>
-            <span
-              onClick={() => setOpenDate(!openDate)}
-              className="mt-3 text-gray-400"
-            >{`Du ${format(date[0].startDate, "MM/dd/yyyy")} À ${format(
-              date[0].endDate,
-              "MM/dd/yyyy"
-            )}`}</span>
-
-            {openDate && (
-              <DateRange
-                editableDateInputs={true}
-                onChange={(item) => setDate([item.selection])}
-                moveRangeOnFirstSelection={false}
-                ranges={date}
-                className="absolute top-full left-1/2 mt-2 -translate-x-1/2" // Utilisez top-full pour le positionner juste en dessous du conteneur et mt-2 pour ajouter une marge en haut
-              />
-            )}
-          </div>
-          <div className="border border-l border-gray-500"></div>
-
-          {/* Le nombre de personne  */}
-          <div className="cursor-pointer">
-            <label htmlFor="inputId" className="text-lg font-semibold">
+          <div className="flex flex-col space-y-1">
+            <label htmlFor="peopleInput" className="text-lg font-semibold">
               Qui ?
             </label>
             <input
+              id="peopleInput"
               type="text"
-              placeholder="Combien de personne ?"
-              className="cursor-pointer border-none outline-none"
+              placeholder="Combien de personnes ?"
+              className="cursor-pointer border border-gray-300 p-2 rounded outline-none"
+              value={maxPeople}
+              onChange={e => setMaxPeople(e.target.value)}
             />
           </div>
 
-          {/* Boutton de recherche */}
-          <button className="bg-primary text-white p-5 rounded">
+          <button className="bg-primary text-white p-5 rounded" onClick={handleSearch}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

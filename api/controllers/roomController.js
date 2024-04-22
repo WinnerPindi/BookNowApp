@@ -81,3 +81,34 @@ export const updateRoom = async (req, res, next) => {
     }
   };
 
+  export const searchRoomsByPriceAndCapacity = async (req, res) => {
+    const { price, maxPeople } = req.query;
+  
+    let queryConditions = {};
+  
+    if (price) {
+      queryConditions.price = { $lte: Number(price) };
+    }
+  
+    if (maxPeople) {
+      queryConditions.maxPeople = { $eq: Number(maxPeople) }; // Utiliser $eq pour l'égalité stricte
+    }
+  
+    try {
+      const rooms = await RoomModel.find(queryConditions);
+  
+      if (!rooms.length) {
+        return res.status(404).json({ message: "Aucune chambre correspondante trouvée" });
+      }
+  
+      res.status(200).json(rooms);
+    } catch (error) {
+      console.error("Erreur lors de la recherche de chambres:", error);
+      res.status(500).json({ message: "Erreur lors de la recherche de chambres", error: error.message });
+    }
+  };
+  
+  
+  
+  
+

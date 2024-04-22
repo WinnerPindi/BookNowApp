@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import RatingStars from "../components/RatingStars";
 import axios from "axios";
 import { fetchRoomDetails } from "../services/roomService";
 import { useParams, useNavigate } from "react-router-dom";
 
 function RoomDetails() {
+  const user = useSelector(state => state.authSlice.user);
+  const token = user?.token;
   let { id } = useParams();
   const navigate = useNavigate();
   const [roomDetails, setRoomDetails] = useState(null);
   const [reviews, setReviews] = useState([]);
   const BASE_URL = "http://localhost:8800/api";
-  const fetchRoomReviews = async (roomId) => {
+
+  async function fetchRoomReviews(roomId) {
     try {
       const response = await axios.get(`${BASE_URL}/reviews/room/${roomId}`);
       return response.data;
     } catch (error) {
-      console.error(
-        "Erreur lors de la récupération des avis de la chambre: ",
-        error
-      );
+      console.error("Erreur lors de la récupération des avis de la chambre: ", error);
       throw error;
     }
-  };
+  }
 
   useEffect(() => {
     async function loadData() {
@@ -49,6 +50,26 @@ function RoomDetails() {
     return <div>Chargement...</div>;
   }
 
+  const handleDeleteReview = async (reviewId) => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce commentaire ?")) {
+      try {
+        const response = await axios.delete(`http://localhost:8800/api/reviews/${reviewId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}` // Assurez-vous que le token est disponible
+          }
+        });
+        if (response.status === 200) {
+          toast.success("Commentaire supprimé avec succès");
+          // Filtrer les commentaires pour enlever celui qui a été supprimé
+          setReviews(reviews.filter(review => review._id !== reviewId));
+        }
+      } catch (error) {
+        console.error("Erreur lors de la suppression du commentaire :", error);
+        toast.error("La suppression du commentaire a échoué.");
+      }
+    }
+  };
+  
   const handleReserveClick = () => {
     navigate("/create-booking", { state: { roomId: id } });
   };
@@ -81,6 +102,7 @@ function RoomDetails() {
         <h1 className="mt-12 text-3xl">Description</h1>
         <p className="mt-2">{roomDetails.description}</p>
       </div>
+      <h1 className="mt-12 text-3xl">Ses points fort </h1>
       <div className="mt-12 grid grid-cols-2 gap-4">
         <div>
           <p className="text-lg">Adresse: {roomDetails.address}</p>
@@ -119,9 +141,18 @@ function RoomDetails() {
               </div>
               <div className="mt-2">
                 <p className="text-gray-800 text-lg">{review.comment}</p>
-                <p className="text-gray-600 text-sm">
-                  Note: {review.rating} / 5
-                </p>
+                <div className="flex items-center">
+                  Note:
+                  <RatingStars rating={review.rating} />
+                  {user?.userDetails?._id === review.user._id && (
+                    <button
+                      onClick={() => handleDeleteReview(review._id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      Supprimer
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))

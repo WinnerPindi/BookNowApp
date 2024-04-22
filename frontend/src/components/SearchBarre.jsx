@@ -23,11 +23,11 @@ export function SearchBarre() {
           {/* La destination */}
           <div className="flex flex-col space-y-1">
             <label htmlFor="inputId" className="text-lg font-semibold">
-              Où ?
+              Prix ?
             </label>
             <input
               type="text"
-              placeholder="Quelle destination ?"
+              placeholder="Quel prix ?"
               className="cursor-pointer border-none outline-none"
             />
           </div>

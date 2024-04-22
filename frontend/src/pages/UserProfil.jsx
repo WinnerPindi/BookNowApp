@@ -6,7 +6,7 @@ function UserProfile() {
   const { userDetails } = useSelector((state) => state.authSlice.user);
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="pt-16 max-w-4xl mx-auto">
       <h1 className="mt-12 text-4xl text-center mb-10">Infos Personnelles</h1>
       <div className="bg-white rounded-lg overflow-hidden shadow-lg mb-5 p-5 flex flex-col gap-4">
         <div>

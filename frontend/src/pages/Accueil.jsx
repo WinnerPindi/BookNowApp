@@ -25,7 +25,7 @@ export function Accueil() {
     getRoomsData();
   }, []);
   return (
-    <div >
+    <div className="pt-16">
       <HomeBanner/>
       <SearchBarre />
       <AppartGrid items={rooms}/>

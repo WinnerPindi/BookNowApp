@@ -26,12 +26,12 @@ const UserBookings = () => {
   if (error)
     return <div>Erreur : {error.message || "Une erreur s'est produite"}</div>;
 
-  const handleAddReview = (bookingId) => {
-    navigate(`/reviews/new?bookingId=${bookingId}`); // Redirection avec le bookingId si nécessaire
+  const handleAddReview = (roomId) => {
+    navigate(`/reviews/new/${roomId}`);
   };
 
   return (
-    <div className="max-w-4xl mx-auto ">
+    <div className="pt-16 max-w-4xl mx-auto ">
       <h2 className="mt-12 text-4xl text-center  mb-10">Mes réservations</h2>
       {bookings.length > 0 ? (
         bookings.map((booking) => (
@@ -65,7 +65,7 @@ const UserBookings = () => {
             <div className="flex justify-end items-center gap-4">
               <button
                 className="flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                onClick={() => handleAddReview(booking._id)}
+                onClick={() => handleAddReview(booking.room._id)}
               >
                 <BiCommentDetail />
                 <span>Ajouter un commentaire</span>

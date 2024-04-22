@@ -32,7 +32,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/rooms/:id" element={<RoomDetails/>} />
             <Route path="/create-booking" element={<CreateBooking/>} />
             <Route path="/bookings" element={<UserBookings/>} />
-            <Route path="/reviews/new" element={<AddUserReview/>} />
+            <Route path="/reviews/new/:roomId" element={<AddUserReview/>} />
           </Route>
         </Routes>
       </Provider>

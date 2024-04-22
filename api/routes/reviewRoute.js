@@ -16,7 +16,7 @@ router.post("/", verifyUser, createReview); // Utilise `verifyUser` pour s'assur
 // Mettre à jour une Review
 router.put("/:id", verifyUser, updateReview); // Vous pourriez vouloir vérifier si l'utilisateur est le créateur de la Review ou un admin
 // Supprimer une Review
-router.delete("/:id", verifyAdmin, deleteReview); // Assure que seul un admin peut supprimer une Review
+router.delete("/:id", verifyUser, verifyAdmin, deleteReview); // Assure que seul un admin peut supprimer une Review
 // Récupérer une Review par son ID
 router.get("/me", verifyUser, getReview);
 // Récupérer toutes les Reviews

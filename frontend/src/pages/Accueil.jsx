@@ -28,6 +28,7 @@ export function Accueil() {
     <div className="pt-16">
       <HomeBanner/>
       <SearchBarre />
+      <div className="pt-10 text-4xl font-extrabold text-center">NOS CHAMBRES</div>
       <AppartGrid items={rooms}/>
       <Footer/>
     </div>

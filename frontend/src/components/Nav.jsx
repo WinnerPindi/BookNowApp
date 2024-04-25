@@ -76,6 +76,6 @@ export function Nav() {
           </ul>
         </div>
       </nav>
-      </nav>
+    </nav>
   );
 }

@@ -1,29 +1,16 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { SearchBarre } from '../components/SearchBarre';  
-import { AppartGrid } from '../components/AppartGrid'
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { AppartGrid } from '../components/AppartGrid';
+import { SearchBarre } from '../components/SearchBarre';
 
 export function SearchPage() {
-    const [rooms, setRooms] = useState([]);
-
-    const handleSearch = async (price, maxPeople) => {
-        try {
-            const response = await axios.get(`http://localhost:8800/api/rooms/search`, {
-                params: {
-                    price: price,
-                    maxPeople: maxPeople
-                }
-            });
-            setRooms(response.data);
-        } catch (error) {
-            console.error('Erreur lors de la recherche de chambres:', error);
-           
-        }
-    };
+    const location = useLocation();
+    const { rooms } = location.state || {}; // Récupérer les résultats de la recherche
 
     return (
-        <div>
-            <SearchBarre onSearch={handleSearch} />
+        <div className='p-40'>
+            <SearchBarre/>
+            <div className="pt-10 text-4xl font-extrabold text-center">Résultat de la recherche</div>
             <AppartGrid items={rooms} />
         </div>
     );

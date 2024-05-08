@@ -82,8 +82,7 @@ function RoomDetails() {
   };
 
   return (
-    <div className="mt-2 px-8 py-8 max-w-5xl mx-auto">
-      <h1 className="text-4xl mb-4">{roomDetails.title}</h1>
+    <div className="m-16 px-8 py-8 max-w-5xl mx-auto">
       <div className="flex flex-wrap justify-center gap-4">
         <div className="flex flex-col md:flex-row w-full">
           {roomDetails.images && roomDetails.images[0] && (
@@ -106,6 +105,7 @@ function RoomDetails() {
         </div>
       </div>
       <div>
+        <h1 className="mt-5 text-4xl mb-4">{roomDetails.title}</h1>
         <h1 className="mt-12 text-3xl">Description</h1>
         <p className="mt-2">{roomDetails.description}</p>
       </div>

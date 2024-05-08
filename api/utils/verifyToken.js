@@ -69,3 +69,45 @@ export const verifyAdmin = (req, res, next) => {
     }
   });
 };
+
+export const updateUserProfileImage = async (req, res, next) => {
+  try {
+    // Vérifier si une image a été téléchargée
+    if (!req.file) {
+      return res.status(400).json({ message: "No image provided" });
+    }
+
+    // Récupérer l'URL de l'image téléchargée
+    const imageUrl = req.file.path;
+
+    // Mettre à jour l'utilisateur avec l'URL de l'image
+    req.user.profileImage = imageUrl;
+    await req.user.save();
+
+    // Répondre avec succès
+    res.status(200).json({ message: "Profile image updated successfully", imageUrl });
+  } catch (error) {
+    // Gérer les erreurs
+    console.error("Error updating profile image:", error);
+    next(error);
+  }
+};
+
+export const authenticateToken = async (request, response, next) =>{
+  const authHeader = request.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null) {
+    return response.sendStatus(401);
+  }
+  
+  jwt.verify(token, process.env.JWT, (err, user) => {
+    if (err) {
+        console.log('log: ',user);
+      return response.sendStatus(403);
+    }
+    console.log('Utilisateur: ',user);
+    request.user = user;
+    next();
+  });
+}

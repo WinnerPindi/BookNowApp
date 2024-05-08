@@ -1,29 +1,19 @@
 import express from "express";
-import { deleteUser, getUser, getUsers, updateUser } from "../controllers/userController.js";
-import { verifyToken, verifyUser,verifyAdmin } from "../utils/verifyToken.js";
+import { deleteUser, getUser, getUsers, updateUser, updateUserProfileImage } from "../controllers/userController.js";
+import { verifyToken, verifyUser, verifyAdmin , authenticateToken} from "../utils/verifyToken.js";
+import upload from "../middlewares/upload.js";
 
 const router = express.Router();
 
-/*
-router.get("/checkauthentication",verifyToken, (req,res,next) =>{
-    res.send("Hello user, you are logged in")
-});*/
-/*
-router.get("/checkuser/:id",verifyUser, (req,res,next) =>{
-    res.send("Hello user, you are logged in and you can delete you account")
-});
-
-router.get("/checkadmin/:id",verifyUser, (req,res,next) =>{
-    res.send("Hello Admin, you are logged in and you can delete all accounts")
-}); */
-
-//UPDATE UN User
-router.put("/:id",verifyUser,updateUser);
-//DELETE UN User
-router.delete("/:id", verifyUser,deleteUser);
-//GET A User
-router.get("/:id", verifyUser,getUser);
-//GET ALL UserS
-router.get("/",verifyAdmin, getUsers);
+// UPDATE un utilisateur
+router.put("/:id", verifyUser, upload.single("profileImage"), updateUser);
+// DELETE un utilisateur
+router.delete("/:id", verifyUser, deleteUser);
+// GET un utilisateur
+router.get("/:id", authenticateToken, getUser);
+// GET tous les utilisateurs
+router.get("/", verifyAdmin, getUsers);
+// Mettre à jour l'image de profil de l'utilisateur
+router.put("/profileImage/:id", authenticateToken, upload.single("profileImage"), updateUserProfileImage);
 
 export default router;

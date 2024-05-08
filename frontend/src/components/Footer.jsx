@@ -1,9 +1,10 @@
-import { AiFillInstagram } from "react-icons/ai";
-import { AiFillLinkedin } from "react-icons/ai";
+import { AiFillInstagram, AiFillLinkedin } from "react-icons/ai"; // Importation optimisée
+
 export function Footer() {
   return (
-    <div className="flex justify-between mt-20 p-10 bg-primary text-white">
-      <div className="">
+    // Utilisation de w-full pour garantir que le div occupe toute la largeur
+    <div className="w-full flex justify-between items-center mt-20 p-10 bg-primary text-white">
+      <div>
         <p className="font-extrabold text-xl">
           BookNow@2024. All Rights Reserved.
         </p>

@@ -7,8 +7,6 @@ import { toast } from 'react-toastify';
 const CreateBooking = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
-  // Ajustez ici pour utiliser la nouvelle structure Redux
   const user = useSelector((state) => state.authSlice.user);
   const userDetails = user?.userDetails;
   const token = user?.token; 
@@ -17,29 +15,35 @@ const CreateBooking = () => {
   const [arrivalDate, setArrivalDate] = useState('');
   const [departDate, setDepartDate] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [nextAvailableDate, setNextAvailableDate] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setNextAvailableDate(null); // Réinitialiser la prochaine date disponible
 
     try {
       const response = await axios.post('http://localhost:8800/api/bookings', {
         room: roomId,
-        user: userDetails._id, 
+        user: userDetails._id,
         arrivalDate,
         departDate
       }, {
         headers: {
-          'Authorization': `Bearer ${token}` // Utilisez le token pour l'autorisation
+          'Authorization': `Bearer ${token}`
         }
       });
 
-      console.log(response.data);
       toast.success('Réservation réussie!');
-      navigate('/bookings'); // Redirection vers la page de succès ou toute autre page
+      navigate('/bookings');
     } catch (error) {
       console.error('Erreur lors de la création de la réservation:', error);
-      toast.error('La réservation a échoué.');
+      if (error.response && error.response.data.nextAvailableDate) {
+        setNextAvailableDate(error.response.data.nextAvailableDate);
+        toast.error(`La chambre n'est pas disponible. Prochaine disponibilité : ${error.response.data.nextAvailableDate}`);
+      } else {
+        toast.error('La réservation a échoué.');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -49,9 +53,7 @@ const CreateBooking = () => {
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-2xl font-semibold mb-4">Créer une réservation</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Formulaire de réservation et champs */}
         <div>
-          {/* Champs du formulaire */}
           <label htmlFor="arrivalDate" className="block text-sm font-medium text-gray-700">Date d'arrivée</label>
           <input
             type="date"
@@ -75,6 +77,11 @@ const CreateBooking = () => {
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
           />
         </div>
+        {nextAvailableDate && (
+          <div className="text-red-500">
+            La chambre n'est pas disponible jusqu'à : {nextAvailableDate}
+          </div>
+        )}
         <button
           type="submit"
           disabled={isSubmitting}

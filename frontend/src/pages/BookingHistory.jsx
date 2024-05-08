@@ -1,16 +1,15 @@
-import { BiCommentDetail } from "react-icons/bi";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserBookings, deleteBooking } from "../redux/slice/bookingSlice";
-import { BiTrash, BiEdit } from "react-icons/bi";
+import { fetchUserBookingHistory } from "../redux/slice/bookingSlice";
+import { BiCommentDetail, BiTrash, BiEdit } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 const BASE_IMAGE_URL = "http://localhost:8800/";
 
-const UserBookings = () => {
+const BookingHistory = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { bookings, loading, error } = useSelector(
+  const { bookingHistory, loading, error } = useSelector(
     (state) => state.bookingSlice
   );
   const { userDetails } = useSelector((state) => state.authSlice.user);
@@ -18,7 +17,7 @@ const UserBookings = () => {
 
   useEffect(() => {
     if (userId) {
-      dispatch(fetchUserBookings(userId));
+      dispatch(fetchUserBookingHistory(userId));
     }
   }, [dispatch, userId]);
 
@@ -26,29 +25,11 @@ const UserBookings = () => {
   if (error)
     return <div>Erreur : {error.message || "Une erreur s'est produite"}</div>;
 
-  const handleAddReview = (roomId) => {
-    navigate(`/reviews/new/${roomId}`);
-  };
-
-  const handleViewHistory = () => {
-    // Rediriger l'utilisateur vers la page d'historique des réservations
-    navigate("/history");
-  };
-  console.log(userDetails)
-
   return (
     <div className="pt-16 max-w-4xl mx-auto ">
-      <h2 className="mt-12 text-4xl text-center  mb-10">Mes réservations</h2>
-      <div className="flex justify-end mb-4">
-        <button
-          className="px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          onClick={handleViewHistory}
-        >
-          Voir l'historique des réservations
-        </button>
-      </div>
-      {bookings.length > 0 ? (
-        bookings.map((booking) => (
+      <h2 className="mt-12 text-4xl text-center  mb-10">Historique des réservations</h2>
+      {bookingHistory.length > 0 ? (
+        bookingHistory.map((booking) => (
           <div
             key={booking._id}
             className="bg-white rounded-lg overflow-hidden shadow-lg mb-5 p-5 flex flex-col gap-4"
@@ -79,7 +60,7 @@ const UserBookings = () => {
             <div className="flex justify-end items-center gap-4">
               <button
                 className="flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                onClick={() => handleAddReview(booking.room._id)}
+                onClick={() => {}}
               >
                 <BiCommentDetail />
                 <span>Ajouter un commentaire</span>
@@ -99,7 +80,7 @@ const UserBookings = () => {
                       "Êtes-vous sûr de vouloir supprimer cette réservation ?"
                     )
                   ) {
-                    dispatch(deleteBooking(booking._id));
+                    // Ici, tu pourrais implémenter une fonctionnalité pour supprimer une réservation de l'historique
                   }
                 }}
               >
@@ -110,10 +91,10 @@ const UserBookings = () => {
           </div>
         ))
       ) : (
-        <div className="text-center py-5">Aucune réservation trouvée.</div>
+        <div className="text-center py-5">Aucune réservation trouvée dans l'historique.</div>
       )}
     </div>
   );
 };
 
-export default UserBookings;
+export default BookingHistory;

@@ -18,6 +18,21 @@ export const fetchUserBookings = createAsyncThunk(
     }
   }
 );
+export const fetchUserBookingHistory = createAsyncThunk(
+  "bookings/fetchUserBookingHistory",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const { token } = JSON.parse(localStorage.getItem("profile"));
+      API.defaults.withCredentials = true;
+      API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await API.get(`api/bookings/history/${userId}`);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 export const deleteBooking = createAsyncThunk(
   "bookings/deleteBooking",
   async (bookingId, { getState, rejectWithValue }) => {
@@ -40,6 +55,7 @@ const bookingsSlice = createSlice({
   name: "bookings",
   initialState: {
     bookings: [],
+    bookingHistory: [],
     loading: false,
     error: null,
   },
@@ -70,7 +86,19 @@ const bookingsSlice = createSlice({
       })
       .addCase(deleteBooking.rejected, (state, action) => {
         // Optionnel : gérer une erreur de suppression
-      });
+      })
+      .addCase(fetchUserBookingHistory.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserBookingHistory.fulfilled, (state, action) => {
+        state.bookingHistory = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchUserBookingHistory.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 

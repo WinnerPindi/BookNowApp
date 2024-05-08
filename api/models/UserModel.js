@@ -22,6 +22,9 @@ const UserSchema = new mongoose.Schema({
     isAdmin:{
         type:Boolean,
         default: false,
+    },
+    profileImage: {
+        type: String, // Chemin de l'image de profil
     }
 
 },{timestamps:true});

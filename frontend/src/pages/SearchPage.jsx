@@ -10,7 +10,7 @@ export function SearchPage() {
     return (
         <div className='p-40'>
             <SearchBarre/>
-            <div className="pt-10 text-4xl font-extrabold text-center">Résultat de la recherche</div>
+            <div className="pt-10 text-4xl font-extrabold text-center">Résultats de la recherche</div>
             <AppartGrid items={rooms} />
         </div>
     );

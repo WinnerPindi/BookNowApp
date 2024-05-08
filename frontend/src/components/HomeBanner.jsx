@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // Importe le CSS de AOS
+import 'aos/dist/aos.css'; // Import le CSS de AOS
 import BackgroundImage from "../assets/Bg-lit.jpg";
 
 export function HomeBanner() {

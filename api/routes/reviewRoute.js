@@ -12,15 +12,15 @@ import {
 
 const router = express.Router();
 // Créer une Review
-router.post("/", verifyUser, createReview); // Utilise `verifyUser` pour s'assurer que seuls les utilisateurs authentifiés peuvent créer une Review
+router.post("/", verifyUser, createReview); 
 // Mettre à jour une Review
-router.put("/:id", verifyUser, updateReview); // Vous pourriez vouloir vérifier si l'utilisateur est le créateur de la Review ou un admin
+router.put("/:id", verifyUser, updateReview); 
 // Supprimer une Review
-router.delete("/:id", verifyUser, verifyAdmin, deleteReview); // Assure que seul un admin peut supprimer une Review
+router.delete("/:id", verifyUser, verifyAdmin, deleteReview); 
 // Récupérer une Review par son ID
 router.get("/me", verifyUser, getReview);
 // Récupérer toutes les Reviews
-router.get("/", verifyAdmin, getReviews); // Limite cette opération aux administrateurs
+router.get("/", verifyAdmin, getReviews); 
 //Recurer les com d'une chambre 
 router.get("/room/:roomId", getReviewsByRoom);
 

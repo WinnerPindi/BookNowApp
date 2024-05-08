@@ -8,20 +8,23 @@ const MIME_TYPE_MAP = {
 };
 
 const storage = multer.diskStorage({
+  // Définit le dossier de destination des fichiers téléchargés
   destination: (req, file, cb) => {
     cb(null, "uploads/images");
   },
+  // Définit le nom du fichier sauvegardé
   filename: (req, file, cb) => {
-    const ext = MIME_TYPE_MAP[file.mimetype]; 
+    const ext = MIME_TYPE_MAP[file.mimetype];
     cb(null, `${Date.now()}.${ext}`);
   },
 });
 const fileFilter = (req, file, cb) => {
-    const isValid = !!MIME_TYPE_MAP[file.mimetype];
-    let error = isValid ? null : new Error('Invalid mime type!');
-    cb(error, isValid);
+  // Vérifie si le type MIME du fichier est valide
+  const isValid = !!MIME_TYPE_MAP[file.mimetype];
+  let error = isValid ? null : new Error("Invalid mime type!");
+  cb(error, isValid);
 };
-
-const upload = multer({ storage: storage, fileFilter: fileFilter  });
+// Crée une instance de multer avec les configurations de stockage et de filtrage spécifiées
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 export default upload;

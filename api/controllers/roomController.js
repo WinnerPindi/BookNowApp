@@ -8,7 +8,7 @@ export const createRoom = async (req, res, next) => {
   // et les chemins des images téléchargées
   const newRoomData = {
     ...req.body,
-    images: req.files.map(file => file.path), // Assumer que 'req.files' contient vos fichiers téléchargés
+    images: req.files.map(file => file.path), // Stocke les chemins des images téléchargées
   };
   const newRoom = new RoomModel(newRoomData);
 
@@ -23,7 +23,7 @@ export const createRoom = async (req, res, next) => {
     } catch (err) {
       // En cas d'erreur lors de la mise à jour de l'hôtel, on passe l'erreur au middleware d'erreur
       next(err);
-      return; // Arrêt de l'exécution pour éviter d'envoyer une réponse multiple
+      return; 
     }
 
     // Envoi d'une réponse avec la chambre sauvegardée si tout s'est bien passé
@@ -47,11 +47,13 @@ export const updateRoom = async (req, res, next) => {
       }
   };
 
+  // Supprimer une chambre
   export const deleteRoom = async (req, res, next) => {
     
     try {
         await RoomModel.findByIdAndDelete(req.params.id);
         try {
+          // Supprime l'ID de la chambre supprimée de la liste des chambres de l'hôtel
             await HotelModel.findByIdAndUpdate(hotelId, {
               $pull: { rooms: req.params.id},
             });
@@ -63,6 +65,7 @@ export const updateRoom = async (req, res, next) => {
       next(err);
     }
   };
+  // Récupérer une chambre
   export const getRoom = async (req, res, next) => {
     try {
         const room = await RoomModel.findById(req.params.id);
@@ -72,6 +75,7 @@ export const updateRoom = async (req, res, next) => {
     }
   };
 
+  // Récupérer toutes les chambres
   export const getRooms = async (req, res, next) => {
     try {
         const rooms = await RoomModel.find();
@@ -81,17 +85,19 @@ export const updateRoom = async (req, res, next) => {
     }
   };
 
+  // Rechercher des chambres par prix et capacité
   export const searchRoomsByPriceAndCapacity = async (req, res) => {
     const { price, maxPeople } = req.query;
   
     let queryConditions = {};
   
+    
     if (price) {
-      queryConditions.price = { $lte: Number(price) };
+      queryConditions.price = { $lte: Number(price) };// Chambres avec un prix inférieur ou égal à celui spécifié
     }
   
     if (maxPeople) {
-      queryConditions.maxPeople = { $eq: Number(maxPeople) }; // Utiliser $eq pour l'égalité stricte
+      queryConditions.maxPeople = { $eq: Number(maxPeople) }; // Chambres pouvant accueillir un nombre spécifique de personnes
     }
   
     try {

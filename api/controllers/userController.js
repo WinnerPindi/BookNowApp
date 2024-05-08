@@ -1,11 +1,14 @@
 import UserModel from "../models/UserModel.js";
 
+
+// Mettre à jour un utilisateur
 export const updateUser = async (req, res, next) => {
   try {
+     // Met à jour l'utilisateur avec les données fournies 
       const updateUser = await UserModel.findByIdAndUpdate(
         req.params.id,
         { $set: req.body },
-        { new: true }
+        { new: true }// Retourne l'objet mis à jour
       );
       res.status(200).json(updateUser);
     } catch (err) {
@@ -13,7 +16,7 @@ export const updateUser = async (req, res, next) => {
     }
 };
 
-
+// Supprimer un utilisateur
 export const deleteUser = async (req, res, next) => {
   try {
     await UserModel.findByIdAndDelete(req.params.id);
@@ -22,15 +25,18 @@ export const deleteUser = async (req, res, next) => {
     next(err);
   }
 };
+
+// Récupérer un utilisateur spécifique
 export const getUser = async (req, res, next) => {
   try {
+    // Récupère un utilisateur par son ID
     const user = await UserModel.findById(req.params.id);
     res.status(200).json(user);
   } catch (err) {
     next(err);
   }
 };
-
+// Récupérer un utilisateur spécifique
 export const getUsers = async (req, res, next) => {
   try {
     const users = await UserModel.find();
@@ -40,7 +46,7 @@ export const getUsers = async (req, res, next) => {
   }
 };
 
-
+// Mettre à jour l'image de profil de l'utilisateur
 export const updateUserProfileImage = async (req, res, next) => {
   if (!req.file) {
     return res.status(400).send('No image uploaded');

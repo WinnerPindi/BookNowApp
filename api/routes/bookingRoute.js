@@ -22,7 +22,7 @@ router.get("/history/:userId", verifyUser, getUserBookingHistory)
 // Supprimer une réservation
 router.delete("/:id", verifyUser, deleteBooking); 
 // Récupérer une réservation par son ID
-router.get("/me", verifyUser, getBooking);
+router.get("/:id", verifyUser, getBooking);
 // Récupérer toutes les réservations
 router.get("/", verifyAdmin, getBookings); 
 // Récupérer les réservations d'un utilisateur spécifique

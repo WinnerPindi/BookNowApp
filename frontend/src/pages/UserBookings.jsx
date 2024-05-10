@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 const BASE_IMAGE_URL = "http://localhost:8800/";
 
 const UserBookings = () => {
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { bookings, loading, error } = useSelector(
@@ -30,18 +32,22 @@ const UserBookings = () => {
     navigate(`/reviews/new/${roomId}`);
   };
 
+  const handleUpdateBooking = (bookingId) => {
+    navigate(`/update-booking`, { state: { bookingId } });
+  };
+
   const handleViewHistory = () => {
     // Rediriger l'utilisateur vers la page d'historique des réservations
     navigate("/history");
   };
-  console.log(userDetails)
+  console.log(userDetails);
 
   return (
     <div className="pt-16 max-w-4xl mx-auto ">
       <h2 className="mt-12 text-4xl text-center  mb-10">Mes réservations</h2>
       <div className="flex justify-end mb-4">
         <button
-          className="px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           onClick={handleViewHistory}
         >
           Voir l'historique des réservations
@@ -78,15 +84,15 @@ const UserBookings = () => {
             {/* Actions */}
             <div className="flex justify-end items-center gap-4">
               <button
-                className="flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 onClick={() => handleAddReview(booking.room._id)}
               >
                 <BiCommentDetail />
                 <span>Ajouter un commentaire</span>
               </button>
               <button
-                className="flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                onClick={() => {}}
+                className="flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                onClick={() => handleUpdateBooking(booking._id)}
               >
                 <BiEdit />
                 <span>Modifier</span>

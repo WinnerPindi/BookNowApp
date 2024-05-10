@@ -36,7 +36,9 @@ export const getUser = async (req, res, next) => {
     next(err);
   }
 };
-// Récupérer un utilisateur spécifique
+
+
+// Récupérer des utilisateurs
 export const getUsers = async (req, res, next) => {
   try {
     const users = await UserModel.find();

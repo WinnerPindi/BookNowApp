@@ -30,7 +30,7 @@ export function Login() {
     }
   };
   return (
-    <div className="p-4 border-2 primary rounded-lg shadow-lg max-w-md mx-auto mt-20">
+    <div className=" p-4 border-2 primary rounded-lg shadow-lg max-w-md mx-auto mt-20">
       <h1 className="mt-6 text-4xl text-center mb-10">Se connecter</h1>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <input

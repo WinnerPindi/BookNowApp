@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUserDetails } from '../redux/slice/authSlice'; // Importez votre action pour la mise à jour
+import { updateUserDetails } from '../redux/slice/authSlice'; 
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -25,7 +25,7 @@ export function UserProfileEdit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Supposons que updateUserDetails est votre action Redux pour mettre à jour l'utilisateur
+      
       await dispatch(updateUserDetails({ id: userDetails._id, ...formData }));
       toast.success('Profil mis à jour avec succès !');
       navigate('/'); // Redirige vers la page d'accueil ou une autre page de confirmation
@@ -36,7 +36,7 @@ export function UserProfileEdit() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="mt-20 container mx-auto p-4">
       <h1 className="text-4xl  font-bold mb-4">Modifier le profil</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">

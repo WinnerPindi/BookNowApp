@@ -25,9 +25,23 @@ const BookingHistory = () => {
   if (error)
     return <div>Erreur : {error.message || "Une erreur s'est produite"}</div>;
 
+  const handleViewBookings = () => {
+    // Rediriger l'utilisateur vers la page d'historique des réservations
+    navigate("/bookings");
+  };
   return (
     <div className="pt-16 max-w-4xl mx-auto ">
-      <h2 className="mt-12 text-4xl text-center  mb-10">Historique des réservations</h2>
+      <h2 className="mt-12 text-4xl text-center  mb-10">
+        Historique des réservations
+      </h2>
+      <div className="flex justify-end mb-4">
+        <button
+          className="px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          onClick={handleViewBookings}
+        >
+          Voir l'historique des réservations
+        </button>
+      </div>
       {bookingHistory.length > 0 ? (
         bookingHistory.map((booking) => (
           <div
@@ -65,13 +79,7 @@ const BookingHistory = () => {
                 <BiCommentDetail />
                 <span>Ajouter un commentaire</span>
               </button>
-              <button
-                className="flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                onClick={() => {}}
-              >
-                <BiEdit />
-                <span>Modifier</span>
-              </button>
+              
               <button
                 className="flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 onClick={() => {
@@ -80,7 +88,7 @@ const BookingHistory = () => {
                       "Êtes-vous sûr de vouloir supprimer cette réservation ?"
                     )
                   ) {
-                    // Ici, tu pourrais implémenter une fonctionnalité pour supprimer une réservation de l'historique
+                    // implémenter une fonctionnalité pour supprimer une réservation de l'historique
                   }
                 }}
               >
@@ -91,7 +99,9 @@ const BookingHistory = () => {
           </div>
         ))
       ) : (
-        <div className="text-center py-5">Aucune réservation trouvée dans l'historique.</div>
+        <div className="text-center py-5">
+          Aucune réservation trouvée dans l'historique.
+        </div>
       )}
     </div>
   );

@@ -6,11 +6,11 @@ import upload from "../middlewares/upload.js";
 const router = express.Router();
 
 // UPDATE un utilisateur
-router.put("/:id", verifyUser, upload.single("profileImage"), updateUser);
+router.put("/:id", verifyUser, updateUser);
 // DELETE un utilisateur
 router.delete("/:id", verifyUser, deleteUser);
 // GET un utilisateur
-router.get("/:id", authenticateToken, getUser);
+router.get("/:id", verifyUser, getUser);
 // GET tous les utilisateurs
 router.get("/", verifyAdmin, getUsers);
 // Mettre à jour l'image de profil de l'utilisateur
